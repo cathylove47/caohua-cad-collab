@@ -4,3 +4,10 @@ backend/node_modules
 backend/data
 backend/dist
 .DS_Store
+report-latex/*.aux
+report-latex/*.bbl
+report-latex/*.blg
+report-latex/*.log
+report-latex/*.out
+report-latex/*.toc
+report-latex/missfont.log

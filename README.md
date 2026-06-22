@@ -32,9 +32,8 @@ cad-collab/
     defense-script.md
     evaluation-checklist.md
     local-run.md
-    presentation-copy.md
-    presentation-outline.md
     report-outline.md
+  report-latex/
   README.md
 ```
 
@@ -92,6 +91,7 @@ npm run dev
 - 智能辅助建模入口完成
 - 本地 JSON 存储完成
 - 课程设计说明文档完成
+- LaTeX 课程报告模板与可编译正文完成
 
 ## 简化实现说明
 
@@ -116,6 +116,5 @@ npm run dev
 - [考核标准对照表](./docs/evaluation-checklist.md)
 - [本地运行说明](./docs/local-run.md)
 - [测试矩阵](./docs/testing-matrix.md)
-- [逐页 PPT 文案稿](./docs/presentation-copy.md)
-- [答辩 PPT 提纲](./docs/presentation-outline.md)
 - [课程设计报告提纲](./docs/report-outline.md)
+- [LaTeX 课程报告源码](./report-latex/README.md)
