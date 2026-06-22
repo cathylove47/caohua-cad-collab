@@ -31,12 +31,40 @@
 - 后端类型检查通过：`npm run typecheck`
 - 已生成项目截图：
   - [cad-workspace-demo.png](/Users/cathy/code/caohua/cad-collab/docs/images/cad-workspace-demo.png)
+- 已生成多人协同验收图：
+  - [collab-sync-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/collab-sync-proof.png)
+- 已生成保存与版本快照验收图：
+  - [version-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/version-proof.png)
 - 已生成考核对照图：
   - [evaluation-scorecard.svg](/Users/cathy/code/caohua/cad-collab/docs/images/evaluation-scorecard.svg)
 - 已有 GitHub 仓库：
   - [caohua-cad-collab](https://github.com/cathylove47/caohua-cad-collab)
 
-## 4. 现场演示建议
+## 4. 关键验收截图
+
+### 4.1 双窗口实时协同
+
+![双窗口实时协同验收图](./images/collab-sync-proof.png)
+
+图中可以直接看到：
+
+- A、B 两个窗口进入同一 `room`
+- 左侧 Feature Tree 都出现 `Box1`
+- 右侧参数区都同步为 `width=4`、`height=2`、`depth=3`
+- 底部在线用户同时显示 `alice` 和 `bob`
+- 视图区同时显示远端光标标记
+
+### 4.2 保存与版本快照
+
+![保存与版本快照验收图](./images/version-proof.png)
+
+图中可以直接看到：
+
+- 点击 `Save` 后底部出现保存成功提示
+- 右侧 `Versions` 区域生成新的版本记录
+- 版本项包含时间戳和对象数量，并提供 `Restore` 按钮
+
+## 5. 现场演示建议
 
 答辩时建议优先展示以下测试链路：
 

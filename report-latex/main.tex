@@ -345,11 +345,20 @@ T14 & Smart Assist & 自动创建对应对象 & 创新性 \\
   \item 代码与文档已同步到 GitHub 仓库。
 \end{itemize}
 
+\begin{generalfig}[htb]{双窗口实时协同验收图}{fig:collabproof}
+  \includegraphics[width=\textwidth]{collab-sync-proof.png}
+\end{generalfig}
+
+\begin{generalfig}[htb]{保存与版本快照验收图}{fig:versionproof}
+  \includegraphics[width=\textwidth]{version-proof.png}
+\end{generalfig}
+
 \begin{generalfig}[htb]{考核标准对照图}{fig:scorecard}
   \includegraphics[width=\textwidth]{evaluation-scorecard.png}
 \end{generalfig}
 
 如\autoref{fig:scorecard}所示，系统已经围绕架构设计文档、核心功能实现、代码质量、创新性和演示答辩五个评分项分别准备了对应材料。
+其中，\autoref{fig:collabproof} 直接证明了同房间双窗口下对象创建、参数修改、远端光标和在线用户状态的同步效果；\autoref{fig:versionproof} 则证明了 Save 后版本快照生成、版本列表刷新和后续 Restore 入口的可用性。
 
 \subsection{结果分析}
 
