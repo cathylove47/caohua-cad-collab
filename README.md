@@ -27,10 +27,12 @@ cad-collab/
   backend/
   docs/
     architecture.md
+    course-report-draft.md
     api.md
     defense-script.md
     evaluation-checklist.md
     local-run.md
+    presentation-outline.md
     report-outline.md
   README.md
 ```
@@ -108,7 +110,9 @@ npm run dev
 
 - [系统架构](./docs/architecture.md)
 - [API 说明](./docs/api.md)
+- [报告正文初稿](./docs/course-report-draft.md)
 - [答辩演示稿](./docs/defense-script.md)
 - [考核标准对照表](./docs/evaluation-checklist.md)
 - [本地运行说明](./docs/local-run.md)
+- [答辩 PPT 提纲](./docs/presentation-outline.md)
 - [课程设计报告提纲](./docs/report-outline.md)
