@@ -14,6 +14,7 @@ import type {
   RoomUser,
   ServerMessage,
   SessionInfo,
+  TransformMode,
 } from '../types';
 
 type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error';
@@ -27,6 +28,7 @@ interface CadStore {
   session: SessionInfo | null;
   loginForm: LoginForm;
   connectionStatus: ConnectionStatus;
+  transformMode: TransformMode;
   objects: CADObject[];
   users: RoomUser[];
   cursors: CursorState[];
@@ -38,13 +40,15 @@ interface CadStore {
   smartCommand: string;
   setLoginForm: (patch: Partial<LoginForm>) => void;
   setSmartCommand: (value: string) => void;
+  setTransformMode: (mode: TransformMode) => void;
   connectSession: () => Promise<void>;
   disconnectSession: () => void;
   addObject: (type: CADObjectType) => void;
   extrudeSelected: () => void;
   cutSelected: () => void;
   selectObject: (id: string | null, broadcast?: boolean) => void;
-  updateSelectedProperty: (scope: 'position' | 'rotation' | 'params', key: string, value: number | string) => void;
+  updateSelectedProperty: (scope: 'position' | 'rotation' | 'scale' | 'params', key: string, value: number | string) => void;
+  commitViewportTransform: (objectId: string, transform: Pick<CADObject, 'position' | 'rotation' | 'scale'>) => void;
   deleteSelected: () => void;
   saveProject: () => Promise<void>;
   loadProject: () => Promise<void>;
@@ -107,6 +111,17 @@ function replaceObject(objects: CADObject[], nextObject: CADObject) {
   return filtered.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 }
 
+function withNormalizedScale(object: CADObject): CADObject {
+  return {
+    ...object,
+    scale: object.scale ?? { x: 1, y: 1, z: 1 },
+  };
+}
+
+function normalizeObjects(objects: CADObject[]) {
+  return objects.map(withNormalizedScale);
+}
+
 function upsertCursor(cursors: CursorState[], cursor: CursorState) {
   const filtered = cursors.filter((item) => item.userId !== cursor.userId);
   filtered.push(cursor);
@@ -134,6 +149,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
     roomId: persisted?.roomId ?? 'room-101',
   },
   connectionStatus: 'disconnected',
+  transformMode: 'translate',
   objects: [],
   users: [],
   cursors: [],
@@ -152,6 +168,10 @@ export const useCadStore = create<CadStore>((set, get) => ({
     set({ smartCommand: value });
   },
 
+  setTransformMode: (mode) => {
+    set({ transformMode: mode, notice: `Transform mode switched to ${mode}.` });
+  },
+
   connectSession: async () => {
     const active = get().session ?? buildSession(get().loginForm);
     if (!active.username || !active.roomId) {
@@ -163,7 +183,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
     set({ session: active, connectionStatus: 'connecting', notice: 'Connecting to collaborative room...' });
     const state = await fetchRoomState(active.roomId);
     set({
-      objects: state.objects,
+      objects: normalizeObjects(state.objects),
       users: state.users,
       cursors: state.cursors.filter((item) => item.userId !== active.userId),
       selectedId: null,
@@ -203,7 +223,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
       const current = get().session;
       if (message.type === 'room-state') {
         set({
-          objects: message.payload.objects,
+          objects: normalizeObjects(message.payload.objects),
           users: message.payload.users,
           cursors: message.payload.cursors.filter((item) => item.userId !== current?.userId),
         });
@@ -225,7 +245,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
       if (message.type === 'operation') {
         const currentObjects = cloneObjects(get().objects);
         if (message.payload.type === 'add' || message.payload.type === 'update') {
-          const object = message.payload.payload.object as CADObject;
+          const object = withNormalizedScale(message.payload.payload.object as CADObject);
           set({ objects: replaceObject(currentObjects, object) });
         }
         if (message.payload.type === 'delete') {
@@ -233,7 +253,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
           set({ objects: currentObjects.filter((item) => item.id !== objectId) });
         }
         if (message.payload.type === 'replace-state') {
-          const nextObjects = message.payload.payload.objects as CADObject[];
+          const nextObjects = normalizeObjects(message.payload.payload.objects as CADObject[]);
           set({ objects: nextObjects, selectedId: null });
         }
       }
@@ -266,6 +286,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
       versions: [],
       historyPast: [],
       historyFuture: [],
+      transformMode: 'translate',
       notice: 'Session cleared.',
     });
   },
@@ -346,7 +367,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
       ...selected,
       updatedAt: new Date().toISOString(),
       [scope]: {
-        ...selected[scope],
+        ...(scope === 'scale' ? selected.scale ?? { x: 1, y: 1, z: 1 } : selected[scope]),
         [key]: typeof value === 'string' && value !== '' && !Number.isNaN(Number(value)) ? Number(value) : value,
       },
     };
@@ -355,6 +376,30 @@ export const useCadStore = create<CadStore>((set, get) => ({
       objects: nextObjects,
       historyPast: [...get().historyPast, previous],
       historyFuture: [],
+    });
+    sendMessage({ type: 'operation', payload: makeOperation(session, 'update', { object: updated }) });
+  },
+
+  commitViewportTransform: (objectId, transform) => {
+    const session = get().session;
+    const selected = get().objects.find((item) => item.id === objectId);
+    if (!session || !selected) {
+      return;
+    }
+    const previous = cloneObjects(get().objects);
+    const updated: CADObject = {
+      ...selected,
+      updatedAt: new Date().toISOString(),
+      position: transform.position,
+      rotation: transform.rotation,
+      scale: transform.scale ?? selected.scale ?? { x: 1, y: 1, z: 1 },
+    };
+    const nextObjects = replaceObject(previous, updated);
+    set({
+      objects: nextObjects,
+      historyPast: [...get().historyPast, previous],
+      historyFuture: [],
+      notice: `${updated.name} transform updated in ${get().transformMode} mode.`,
     });
     sendMessage({ type: 'operation', payload: makeOperation(session, 'update', { object: updated }) });
   },
@@ -401,7 +446,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
     const persisted = await fetchPersistedRoomState(session.roomId);
     // "Load" intentionally restores the last saved snapshot rather than transient room memory.
     set({
-      objects: persisted.objects,
+      objects: normalizeObjects(persisted.objects),
       users: state.users,
       cursors: state.cursors.filter((item) => item.userId !== session.userId),
       selectedId: null,
@@ -425,7 +470,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
     }
     const state = await restoreRoomVersion(session.roomId, versionId);
     set({
-      objects: state.objects,
+      objects: normalizeObjects(state.objects),
       selectedId: null,
       notice: `Restored version ${versionId}.`,
     });

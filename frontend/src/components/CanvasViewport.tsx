@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { useCadStore } from '../store/useCadStore';
 import type { CADObject } from '../types';
 
@@ -28,7 +29,18 @@ function buildRenderable(object: CADObject, objects: CADObject[]) {
         Number(object.params.radius ?? 1),
         Number(object.params.radius ?? 1),
         Number(object.params.height ?? 1),
-        32,
+        Number(object.params.radialSegments ?? 32),
+      ),
+      material,
+    );
+  }
+
+  if (object.type === 'cone') {
+    return new THREE.Mesh(
+      new THREE.ConeGeometry(
+        Number(object.params.radius ?? 1),
+        Number(object.params.height ?? 1),
+        Number(object.params.radialSegments ?? 32),
       ),
       material,
     );
@@ -107,15 +119,20 @@ export function CanvasViewport() {
     camera: THREE.PerspectiveCamera;
     renderer: THREE.WebGLRenderer;
     controls: OrbitControls;
+    transformControls: TransformControls;
     dynamicGroup: THREE.Group;
     resizeObserver: ResizeObserver;
   } | null>(null);
+  const activeTransformIdRef = useRef<string | null>(null);
+  const isTransformDraggingRef = useRef(false);
 
   const objects = useCadStore((state) => state.objects);
   const selectedId = useCadStore((state) => state.selectedId);
   const cursors = useCadStore((state) => state.cursors);
+  const transformMode = useCadStore((state) => state.transformMode);
   const selectObject = useCadStore((state) => state.selectObject);
   const sendCursor = useCadStore((state) => state.sendCursor);
+  const commitViewportTransform = useCadStore((state) => state.commitViewportTransform);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -136,6 +153,7 @@ export function CanvasViewport() {
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    controls.enablePan = true;
 
     scene.add(new THREE.GridHelper(24, 24, '#9ca3af', '#d6d3d1'));
     scene.add(new THREE.AxesHelper(4));
@@ -146,6 +164,9 @@ export function CanvasViewport() {
 
     const dynamicGroup = new THREE.Group();
     scene.add(dynamicGroup);
+    const transformControls = new TransformControls(camera, renderer.domElement);
+    transformControls.setSize(0.85);
+    scene.add(transformControls.getHelper());
 
     const raycaster = new THREE.Raycaster();
     raycaster.params.Line = { threshold: 0.3 };
@@ -162,6 +183,9 @@ export function CanvasViewport() {
     resizeObserver.observe(mount);
 
     const onClick = (event: MouseEvent) => {
+      if (isTransformDraggingRef.current) {
+        return;
+      }
       const bounds = renderer.domElement.getBoundingClientRect();
       pointer.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       pointer.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
@@ -182,10 +206,32 @@ export function CanvasViewport() {
       sendCursor((event.clientX - bounds.left) / bounds.width, (event.clientY - bounds.top) / bounds.height);
     };
 
+    const commitActiveTransform = () => {
+      const objectId = activeTransformIdRef.current;
+      const attached = transformControls.object;
+      if (!objectId || !attached) {
+        return;
+      }
+      commitViewportTransform(objectId, {
+        position: { x: attached.position.x, y: attached.position.y, z: attached.position.z },
+        rotation: { x: attached.rotation.x, y: attached.rotation.y, z: attached.rotation.z },
+        scale: { x: attached.scale.x, y: attached.scale.y, z: attached.scale.z },
+      });
+    };
+
+    transformControls.addEventListener('dragging-changed', (event) => {
+      const dragging = Boolean(event.value);
+      isTransformDraggingRef.current = dragging;
+      controls.enabled = !dragging;
+      if (!dragging) {
+        commitActiveTransform();
+      }
+    });
+
     renderer.domElement.addEventListener('click', onClick);
     renderer.domElement.addEventListener('mousemove', onMove);
 
-    sceneState.current = { scene, camera, renderer, controls, dynamicGroup, resizeObserver };
+    sceneState.current = { scene, camera, renderer, controls, transformControls, dynamicGroup, resizeObserver };
 
     let active = true;
     const animate = () => {
@@ -203,11 +249,13 @@ export function CanvasViewport() {
       resizeObserver.disconnect();
       renderer.domElement.removeEventListener('click', onClick);
       renderer.domElement.removeEventListener('mousemove', onMove);
+      transformControls.detach();
+      transformControls.dispose();
       controls.dispose();
       renderer.dispose();
       mount.removeChild(renderer.domElement);
     };
-  }, [selectObject, sendCursor]);
+  }, [commitViewportTransform, selectObject, sendCursor]);
 
   useEffect(() => {
     const state = sceneState.current;
@@ -221,6 +269,7 @@ export function CanvasViewport() {
       const renderable = buildRenderable(object, objects);
       renderable.position.set(object.position.x, object.position.y, object.position.z);
       renderable.rotation.set(object.rotation.x, object.rotation.y, object.rotation.z);
+      renderable.scale.set(object.scale?.x ?? 1, object.scale?.y ?? 1, object.scale?.z ?? 1);
       renderable.userData.objectId = object.id;
       if ('material' in renderable && renderable.material && object.id === selectedId) {
         const mesh = renderable as THREE.Mesh;
@@ -238,13 +287,31 @@ export function CanvasViewport() {
     });
   }, [objects, selectedId]);
 
+  useEffect(() => {
+    const state = sceneState.current;
+    if (!state) {
+      return;
+    }
+    state.transformControls.setMode(transformMode);
+    const selectedObject = state.dynamicGroup.children.find((child) => child.userData.objectId === selectedId);
+    if (selectedObject) {
+      state.transformControls.attach(selectedObject);
+      activeTransformIdRef.current = selectedId;
+      return;
+    }
+
+    activeTransformIdRef.current = null;
+    state.transformControls.detach();
+  }, [objects, selectedId, transformMode]);
+
   return (
     <div className="viewport-shell">
       <div className="viewport-header">
-        <div>
+        <div className="viewport-meta">
           <strong>3D Workspace</strong>
-          <span>Three.js scene + collaborative cursors</span>
+          <span>Three.js scene + collaborative cursors + transform gizmo</span>
         </div>
+        <div className="viewport-transform-mode">Mode: {transformMode}</div>
       </div>
       <div className="viewport-canvas" ref={mountRef} />
       <div className="cursor-layer">

@@ -1,6 +1,7 @@
 export type CADObjectType =
   | 'box'
   | 'cylinder'
+  | 'cone'
   | 'sphere'
   | 'sketch-line'
   | 'sketch-circle'
@@ -32,6 +33,7 @@ export interface CADObject {
   updatedAt: string;
   position: Vector3Like;
   rotation: Vector3Like;
+  scale?: Vector3Like;
   color: string;
   params: Record<string, number | string | boolean | null>;
   sourceSketchId?: string;

@@ -4,6 +4,7 @@ import type { CADObject, CADObjectType, SessionInfo } from '../types';
 const defaultsByType: Record<CADObjectType, Record<string, number | string | boolean | null>> = {
   box: { width: 2, height: 1.5, depth: 2 },
   cylinder: { radius: 1, height: 2 },
+  cone: { radius: 1.1, height: 2.4, radialSegments: 32 },
   sphere: { radius: 1.2 },
   'sketch-line': { x1: -1, z1: 0, x2: 1, z2: 0 },
   'sketch-circle': { radius: 1.2 },
@@ -11,6 +12,26 @@ const defaultsByType: Record<CADObjectType, Record<string, number | string | boo
   extrude: { depth: 2 },
   cut: { width: 1.2, height: 1.2, depth: 1.2 },
 };
+
+function defaultPosition(type: CADObjectType, params: Record<string, number | string | boolean | null>) {
+  if (type === 'sphere') {
+    return { x: 0, y: Number(params.radius ?? 1), z: 0 };
+  }
+
+  if (type === 'cylinder' || type === 'cone') {
+    return { x: 0, y: Number(params.height ?? 2) / 2, z: 0 };
+  }
+
+  if (type === 'box' || type === 'cut') {
+    return { x: 0, y: Number(params.height ?? 1.5) / 2, z: 0 };
+  }
+
+  if (type.startsWith('sketch') || type === 'extrude') {
+    return { x: 0, y: 0, z: 0 };
+  }
+
+  return { x: 0, y: 0.75, z: 0 };
+}
 
 export function cloneObjects<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -20,6 +41,7 @@ function nextName(type: CADObjectType, objects: CADObject[]) {
   const prefixMap: Record<CADObjectType, string> = {
     box: 'Box',
     cylinder: 'Cylinder',
+    cone: 'Cone',
     sphere: 'Sphere',
     'sketch-line': 'Line',
     'sketch-circle': 'Circle',
@@ -34,6 +56,7 @@ function nextName(type: CADObjectType, objects: CADObject[]) {
 
 export function createPrimitive(type: CADObjectType, session: SessionInfo, objects: CADObject[]): CADObject {
   const timestamp = new Date().toISOString();
+  const params = cloneObjects(defaultsByType[type]);
   return {
     id: uuidv4(),
     name: nextName(type, objects),
@@ -41,10 +64,11 @@ export function createPrimitive(type: CADObjectType, session: SessionInfo, objec
     createdBy: session.username,
     createdAt: timestamp,
     updatedAt: timestamp,
-    position: { x: 0, y: type.startsWith('sketch') ? 0 : 0.75, z: 0 },
+    position: defaultPosition(type, params),
     rotation: { x: 0, y: 0, z: 0 },
+    scale: { x: 1, y: 1, z: 1 },
     color: session.color,
-    params: cloneObjects(defaultsByType[type]),
+    params,
   };
 }
 

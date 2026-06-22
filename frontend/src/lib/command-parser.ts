@@ -38,6 +38,9 @@ function detectType(normalized: string): CADObjectType | null {
   if (/(cylinder|圆柱)/.test(normalized)) {
     return 'cylinder';
   }
+  if (/(cone|圆锥|锥体)/.test(normalized)) {
+    return 'cone';
+  }
   if (/(sphere|球体|球)/.test(normalized)) {
     return 'sphere';
   }
@@ -63,7 +66,7 @@ export function parseSmartCommand(input: string, session: SessionInfo, objects: 
   if (!type) {
     return {
       kind: 'error',
-      message: '暂未识别该命令。可尝试 box、cylinder、sphere、rectangle、circle、line。',
+      message: '暂未识别该命令。可尝试 box、cylinder、cone、sphere、rectangle、circle、line。',
     };
   }
 
@@ -86,6 +89,17 @@ export function parseSmartCommand(input: string, session: SessionInfo, objects: 
     setNumericParams(object, {
       radius: radius ?? Number(object.params.radius),
       height: height ?? Number(object.params.height),
+    });
+  }
+
+  if (type === 'cone') {
+    const radius = readNumber(normalized, ['radius', '底面半径', '半径']);
+    const height = readNumber(normalized, ['height', '高']);
+    const radialSegments = readNumber(normalized, ['segments', '边数', '分段']);
+    setNumericParams(object, {
+      radius: radius ?? Number(object.params.radius),
+      height: height ?? Number(object.params.height),
+      radialSegments: radialSegments ?? Number(object.params.radialSegments),
     });
   }
 

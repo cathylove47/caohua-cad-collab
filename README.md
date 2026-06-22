@@ -7,7 +7,8 @@
 ## 功能概览
 
 - React + TypeScript + Vite 前端 CAD 界面
-- Three.js 3D 视图，支持 Box、Cylinder、Sphere
+- Three.js 3D 视图，支持 Box、Cylinder、Cone、Sphere
+- 视图支持 Move / Rotate / Scale 三种对象变换模式
 - Ribbon 风格工具栏、Feature Tree、属性面板、状态栏
 - 草图对象：Line、Circle、Rectangle
 - Extrude：可将 Rectangle / Circle 草图转成 3D 实体
@@ -71,20 +72,22 @@ npm run dev
 
 1. 打开第一个浏览器窗口，输入 `username=alice`、`roomId=room-101`，进入房间。
 2. 打开第二个浏览器窗口，输入 `username=bob`、`roomId=room-101`，进入同一房间。
-3. 在 A 窗口点击 `Box` 或 `Cylinder`，B 窗口会实时看到模型出现。
+3. 在 A 窗口点击 `Box`、`Cylinder` 或 `Cone`，B 窗口会实时看到模型出现。
 4. 选中对象后在右侧属性面板修改尺寸或位置，另一窗口会同步更新。
-5. 新建 `Rectangle` 或 `Circle` 草图后点击 `Extrude`，生成 3D 实体。
-6. 选中一个实体点击 `Cut`，看到简化的切除标记效果。
-7. 在 `Smart Assist` 输入框中尝试 `创建 box width 4 height 2 depth 3`，展示智能辅助建模入口。
-8. 点击 `Save`，后端会保存当前房间 JSON，并生成版本快照。
-9. 刷新页面重新进入房间，点击 `Load` 可恢复后端保存状态。
-10. 右侧 `Versions` 区域可查看最近版本并执行 `Restore`。
-11. 使用 `Undo / Redo` 演示客户端操作回退与重做。
+5. 切换 `Move / Rotate / Scale` 模式，可在视图中对选中对象进行拖动、旋转和缩放。
+6. 新建 `Rectangle` 或 `Circle` 草图后点击 `Extrude`，生成 3D 实体。
+7. 选中一个实体点击 `Cut`，看到简化的切除标记效果。
+8. 在 `Smart Assist` 输入框中尝试 `创建 cone radius 2 height 3` 或 `创建 box width 4 height 2 depth 3`。
+9. 点击 `Save`，后端会保存当前房间 JSON，并生成版本快照。
+10. 刷新页面重新进入房间，点击 `Load` 可恢复后端保存状态。
+11. 右侧 `Versions` 区域可查看最近版本并执行 `Restore`。
+12. 使用 `Undo / Redo` 演示客户端操作回退与重做。
 
 ## 已实现能力
 
 - 前端 CAD 界面四栏布局完成
 - 3D 视图区与对象拾取完成
+- Cone 参数化实体与视图变换模式完成
 - 基础建模和草图数据结构完成
 - 协同广播与在线状态完成
 - 保存、加载、版本快照、版本恢复完成

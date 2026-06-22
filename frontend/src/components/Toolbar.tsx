@@ -9,6 +9,8 @@ export function Toolbar() {
   const loadProject = useCadStore((state) => state.loadProject);
   const undo = useCadStore((state) => state.undo);
   const redo = useCadStore((state) => state.redo);
+  const transformMode = useCadStore((state) => state.transformMode);
+  const setTransformMode = useCadStore((state) => state.setTransformMode);
   const smartCommand = useCadStore((state) => state.smartCommand);
   const setSmartCommand = useCadStore((state) => state.setSmartCommand);
   const runSmartCommand = useCadStore((state) => state.runSmartCommand);
@@ -19,7 +21,14 @@ export function Toolbar() {
         <span className="toolbar-title">Primitives</span>
         <button type="button" onClick={() => addObject('box')}>Box</button>
         <button type="button" onClick={() => addObject('cylinder')}>Cylinder</button>
+        <button type="button" onClick={() => addObject('cone')}>Cone</button>
         <button type="button" onClick={() => addObject('sphere')}>Sphere</button>
+      </div>
+      <div className="toolbar-group">
+        <span className="toolbar-title">Transform</span>
+        <button type="button" className={transformMode === 'translate' ? 'is-active' : ''} onClick={() => setTransformMode('translate')}>Move</button>
+        <button type="button" className={transformMode === 'rotate' ? 'is-active' : ''} onClick={() => setTransformMode('rotate')}>Rotate</button>
+        <button type="button" className={transformMode === 'scale' ? 'is-active' : ''} onClick={() => setTransformMode('scale')}>Scale</button>
       </div>
       <div className="toolbar-group">
         <span className="toolbar-title">Sketch</span>

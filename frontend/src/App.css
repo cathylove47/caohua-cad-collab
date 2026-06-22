@@ -84,6 +84,11 @@
   background: #d6ccc0;
 }
 
+.toolbar button.is-active {
+  background: linear-gradient(135deg, #0f766e, #0891b2);
+  color: white;
+}
+
 .primary-button {
   background: linear-gradient(135deg, #0f766e, #0891b2);
   color: white;
@@ -166,8 +171,29 @@
 }
 
 .viewport-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   padding: 0.9rem 1rem;
   border-bottom: 1px solid rgba(120, 113, 108, 0.16);
+}
+
+.viewport-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.viewport-transform-mode {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.12);
+  color: #115e59;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .viewport-header strong,

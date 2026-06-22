@@ -46,6 +46,9 @@ export function InspectorPanel() {
             {Object.entries(selected.rotation).map(([key, value]) => (
               <NumberField key={key} label={`Rotation ${key}`} value={value} onChange={(next) => updateSelectedProperty('rotation', key, next)} />
             ))}
+            {Object.entries(selected.scale ?? { x: 1, y: 1, z: 1 }).map(([key, value]) => (
+              <NumberField key={key} label={`Scale ${key}`} value={value} onChange={(next) => updateSelectedProperty('scale', key, next)} />
+            ))}
             {Object.entries(selected.params).map(([key, value]) => (
               <NumberField key={key} label={key} value={value} onChange={(next) => updateSelectedProperty('params', key, next)} />
             ))}

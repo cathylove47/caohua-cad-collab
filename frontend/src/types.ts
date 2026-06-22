@@ -1,12 +1,15 @@
 export type CADObjectType =
   | 'box'
   | 'cylinder'
+  | 'cone'
   | 'sphere'
   | 'sketch-line'
   | 'sketch-circle'
   | 'sketch-rectangle'
   | 'extrude'
   | 'cut';
+
+export type TransformMode = 'translate' | 'rotate' | 'scale';
 
 export interface Vector3Like {
   x: number;
@@ -23,6 +26,7 @@ export interface CADObject {
   updatedAt: string;
   position: Vector3Like;
   rotation: Vector3Like;
+  scale?: Vector3Like;
   color: string;
   params: Record<string, number | string | boolean | null>;
   sourceSketchId?: string;
