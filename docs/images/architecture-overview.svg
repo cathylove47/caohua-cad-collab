@@ -1,0 +1,45 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#F7F2E9"/>
+  <text x="88" y="96" font-size="52" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#1F2937">系统总体架构总览</text>
+  <text x="88" y="140" font-size="24" font-family="Arial, Helvetica, sans-serif" fill="#57534E">基于云的协同机械 CAD 系统设计与实现</text>
+
+  <rect x="88" y="198" width="430" height="520" rx="32" fill="#FFFDF9" stroke="#E4D8C8" stroke-width="2"/>
+  <text x="120" y="252" font-size="36" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#0F766E">Frontend</text>
+  <text x="120" y="292" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">React + TypeScript + Vite + Three.js + Zustand</text>
+  <rect x="120" y="332" width="366" height="88" rx="22" fill="#F3ECE1"/>
+  <text x="148" y="384" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">Ribbon / Feature Tree / Inspector</text>
+  <rect x="120" y="442" width="366" height="88" rx="22" fill="#F3ECE1"/>
+  <text x="148" y="494" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">Three.js Scene + Sketch / Model</text>
+  <rect x="120" y="552" width="366" height="124" rx="22" fill="#F3ECE1"/>
+  <text x="148" y="604" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">Zustand Store</text>
+  <text x="148" y="644" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">Undo/Redo · Smart Assist · Presence</text>
+
+  <rect x="586" y="198" width="430" height="520" rx="32" fill="#FFFDF9" stroke="#E4D8C8" stroke-width="2"/>
+  <text x="618" y="252" font-size="36" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#0F766E">Backend</text>
+  <text x="618" y="292" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">Node.js + Express + WebSocket</text>
+  <rect x="618" y="332" width="366" height="88" rx="22" fill="#F3ECE1"/>
+  <text x="646" y="384" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">HTTP API</text>
+  <rect x="618" y="442" width="366" height="88" rx="22" fill="#F3ECE1"/>
+  <text x="646" y="494" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">WebSocket Room Hub</text>
+  <rect x="618" y="552" width="366" height="124" rx="22" fill="#F3ECE1"/>
+  <text x="646" y="604" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">Room State Manager</text>
+  <text x="646" y="644" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">add / update / delete / cursor</text>
+
+  <rect x="1084" y="198" width="430" height="520" rx="32" fill="#FFFDF9" stroke="#E4D8C8" stroke-width="2"/>
+  <text x="1116" y="252" font-size="36" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#0F766E">Storage &amp; Extension</text>
+  <text x="1116" y="292" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">Local JSON + Future OCCT/Wasm</text>
+  <rect x="1116" y="332" width="366" height="88" rx="22" fill="#F3ECE1"/>
+  <text x="1144" y="384" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">roomId.json</text>
+  <rect x="1116" y="442" width="366" height="88" rx="22" fill="#F3ECE1"/>
+  <text x="1144" y="494" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">versions/timestamp.json</text>
+  <rect x="1116" y="552" width="366" height="124" rx="22" fill="#F3ECE1"/>
+  <text x="1144" y="604" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">Future Geometry Adapter</text>
+  <text x="1144" y="644" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">OpenCASCADE/Wasm · PostgreSQL · OBS</text>
+
+  <path d="M518 458H586" stroke="#0EA5E9" stroke-width="8" stroke-linecap="round"/>
+  <path d="M1016 458H1084" stroke="#0EA5E9" stroke-width="8" stroke-linecap="round"/>
+  <path d="M560 446L586 458L560 470" fill="#0EA5E9"/>
+  <path d="M1058 446L1084 458L1058 470" fill="#0EA5E9"/>
+
+  <rect x="422" y="760" width="756" height="84" rx="24" fill="#FFFFFF" stroke="#E4D8C8"/>
+  <text x="452" y="812" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#1F2937">设计思想：前端重计算 · 后端轻协同 · 本地稳定演示 · 未来可替换几何内核</text>

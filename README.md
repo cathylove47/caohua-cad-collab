@@ -32,6 +32,7 @@ cad-collab/
     defense-script.md
     evaluation-checklist.md
     local-run.md
+    presentation-copy.md
     presentation-outline.md
     report-outline.md
   README.md
@@ -114,5 +115,7 @@ npm run dev
 - [答辩演示稿](./docs/defense-script.md)
 - [考核标准对照表](./docs/evaluation-checklist.md)
 - [本地运行说明](./docs/local-run.md)
+- [测试矩阵](./docs/testing-matrix.md)
+- [逐页 PPT 文案稿](./docs/presentation-copy.md)
 - [答辩 PPT 提纲](./docs/presentation-outline.md)
 - [课程设计报告提纲](./docs/report-outline.md)
