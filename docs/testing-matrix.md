@@ -35,6 +35,12 @@
   - [collab-sync-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/collab-sync-proof.png)
 - 已生成保存与版本快照验收图：
   - [version-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/version-proof.png)
+- 已生成 Extrude 验收图：
+  - [extrude-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/extrude-proof.png)
+- 已生成 Undo / Redo 验收图：
+  - [undo-redo-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/undo-redo-proof.png)
+- 已生成 Smart Assist 验收图：
+  - [smart-assist-proof.png](/Users/cathy/code/caohua/cad-collab/docs/images/smart-assist-proof.png)
 - 已生成考核对照图：
   - [evaluation-scorecard.svg](/Users/cathy/code/caohua/cad-collab/docs/images/evaluation-scorecard.svg)
 - 已有 GitHub 仓库：
@@ -63,6 +69,39 @@
 - 点击 `Save` 后底部出现保存成功提示
 - 右侧 `Versions` 区域生成新的版本记录
 - 版本项包含时间戳和对象数量，并提供 `Restore` 按钮
+
+### 4.3 Extrude
+
+![Extrude 功能验收图](./images/extrude-proof.png)
+
+图中可以直接看到：
+
+- 左侧对象树保留 `Rectangle1`
+- 执行 `Extrude` 后生成 `Extrude1`
+- 右侧属性区出现 `depth`
+- 备注信息显示 `Generated from Rectangle1`
+
+### 4.4 Undo / Redo
+
+![Undo / Redo 功能验收图](./images/undo-redo-proof.png)
+
+图中可以直接看到：
+
+- `Delete` 后对象树变为 `0 items`
+- `Undo` 后对象树恢复为 `1 items`
+- `Redo` 后对象树再次回到 `0 items`
+- 底部状态栏同时给出回退和重做提示
+
+### 4.5 Smart Assist
+
+![Smart Assist 功能验收图](./images/smart-assist-proof.png)
+
+图中可以直接看到：
+
+- 顶部输入框保留自然语言命令
+- 对象树自动生成 `Cylinder1`
+- 右侧属性区参数变为 `radius=1.8`、`height=4`
+- 底部状态栏出现智能命令反馈
 
 ## 5. 现场演示建议
 

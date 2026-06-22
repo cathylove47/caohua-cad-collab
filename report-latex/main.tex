@@ -341,6 +341,7 @@ T14 & Smart Assist & 自动创建对应对象 & 创新性 \\
   \item 前端构建通过：\texttt{npm run build}；
   \item 后端类型检查通过：\texttt{npm run typecheck}；
   \item 双窗口房间协同、新建对象同步、属性同步、保存与版本恢复已经完成联调验证；
+  \item Extrude、Undo / Redo 与 Smart Assist 已通过自动化脚本完成页面级验收；
   \item 已生成系统主界面截图与考核标准对照图；
   \item 代码与文档已同步到 GitHub 仓库。
 \end{itemize}
@@ -353,12 +354,24 @@ T14 & Smart Assist & 自动创建对应对象 & 创新性 \\
   \includegraphics[width=\textwidth]{version-proof.png}
 \end{generalfig}
 
+\begin{generalfig}[htb]{Extrude 功能验收图}{fig:extrudeproof}
+  \includegraphics[width=\textwidth]{extrude-proof.png}
+\end{generalfig}
+
+\begin{generalfig}[htb]{Undo / Redo 功能验收图}{fig:undoproof}
+  \includegraphics[width=\textwidth]{undo-redo-proof.png}
+\end{generalfig}
+
+\begin{generalfig}[htb]{Smart Assist 功能验收图}{fig:smartproof}
+  \includegraphics[width=\textwidth]{smart-assist-proof.png}
+\end{generalfig}
+
 \begin{generalfig}[htb]{考核标准对照图}{fig:scorecard}
   \includegraphics[width=\textwidth]{evaluation-scorecard.png}
 \end{generalfig}
 
 如\autoref{fig:scorecard}所示，系统已经围绕架构设计文档、核心功能实现、代码质量、创新性和演示答辩五个评分项分别准备了对应材料。
-其中，\autoref{fig:collabproof} 直接证明了同房间双窗口下对象创建、参数修改、远端光标和在线用户状态的同步效果；\autoref{fig:versionproof} 则证明了 Save 后版本快照生成、版本列表刷新和后续 Restore 入口的可用性。
+其中，\autoref{fig:collabproof} 直接证明了同房间双窗口下对象创建、参数修改、远端光标和在线用户状态的同步效果；\autoref{fig:versionproof} 证明了 Save 后版本快照生成、版本列表刷新和后续 Restore 入口的可用性；\autoref{fig:extrudeproof}、\autoref{fig:undoproof} 与 \autoref{fig:smartproof} 则分别补足了拉伸建模、操作回退重做和智能辅助建模三项核心能力的可视化证据。
 
 \subsection{结果分析}
 
