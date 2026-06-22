@@ -15,6 +15,11 @@
 - 模块关系 UML 图
 - 数据流向图
 - Wasm / OpenCASCADE 预留通信机制说明
+- 配套图示文件：
+  - [architecture-overview.svg](/Users/cathy/code/caohua/cad-collab/docs/images/architecture-overview.svg)
+  - [module-uml.svg](/Users/cathy/code/caohua/cad-collab/docs/images/module-uml.svg)
+  - [collab-dataflow.svg](/Users/cathy/code/caohua/cad-collab/docs/images/collab-dataflow.svg)
+  - [wasm-bridge.svg](/Users/cathy/code/caohua/cad-collab/docs/images/wasm-bridge.svg)
 
 答辩提示：
 

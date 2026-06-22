@@ -147,6 +147,14 @@ The implementation and verification results show that the system is suitable for
 
 如\autoref{fig:arch}所示，前端负责建模与渲染，后端负责协同与状态维护，存储层负责房间 JSON 与版本快照。
 
+\subsection{模块关系 UML}
+
+为便于从软件工程角度说明系统边界，本文进一步给出前后端核心模块关系 UML 图，如\autoref{fig:uml}所示。可以看到，前端以 \texttt{CadStore} 作为状态中枢，负责连接工具栏、对象树、属性面板与三维视图；后端则以 \texttt{Server}、\texttt{RoomManager} 和 \texttt{Storage} 形成清晰的协同与持久化分层。
+
+\begin{generalfig}[htb]{系统模块关系 UML 图}{fig:uml}
+  \includegraphics[width=\textwidth]{module-uml.png}
+\end{generalfig}
+
 \subsection{前端模块设计}
 
 前端主要模块包括：
@@ -183,6 +191,28 @@ The implementation and verification results show that the system is suitable for
   \item 后端更新房间状态并广播到其他客户端；
   \item 用户点击 Save 时，后端写入 JSON 并生成版本快照。
 \end{enumerate}
+
+\begin{generalfig}[htb]{实时协同与持久化数据流图}{fig:dataflow}
+  \includegraphics[width=\textwidth]{collab-dataflow.png}
+\end{generalfig}
+
+\subsection{OpenCASCADE / Wasm 扩展预留}
+
+考虑到课程设计周期和本地稳定演示要求，当前系统没有直接集成 OpenCASCADE/Wasm，而是将其作为后续扩展方向进行架构预留。如\autoref{fig:wasm}所示，未来可在前端增加 \texttt{Geometry Adapter} 和浏览器 Worker 中的 OCCT Wasm 模块，将高层特征命令转换为更强的 B-Rep 求解与布尔运算流程。
+
+\begin{generalfig}[htb]{OpenCASCADE / Wasm 预留通信机制图}{fig:wasm}
+  \includegraphics[width=\textwidth]{wasm-bridge.png}
+\end{generalfig}
+
+在该方案下：
+
+\begin{itemize}[leftmargin=2em]
+  \item Three.js 继续负责显示网格结果和交互；
+  \item Wasm 模块负责复杂几何求解；
+  \item 后端仍然只负责房间协同与持久化，不直接参与几何内核计算。
+\end{itemize}
+
+这种设计使当前 MVP 和未来工业级几何内核升级之间形成了清晰边界，也有助于在答辩时回答“为什么现在不用 OpenCASCADE、以后如何升级”的问题。
 
 \section{关键功能实现}
 

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+  <defs>
+    <style>
+      .title { font: 700 34px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #18212f; }
+      .subtitle { font: 600 18px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #56718c; }
+      .panel { fill: #eef4fa; stroke: #b9cadb; stroke-width: 2; rx: 24; ry: 24; }
+      .card { fill: #fff; stroke: #6885a0; stroke-width: 2; rx: 18; ry: 18; }
+      .head { font: 700 24px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #21344c; }
+      .text { font: 500 17px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #304258; }
+      .mono { font: 500 16px "SF Mono", "Menlo", monospace; fill: #44566b; }
+      .arrowA { stroke: #2b75bd; stroke-width: 3; fill: none; marker-end: url(#arrowA); }
+      .arrowB { stroke: #a05b23; stroke-width: 3; fill: none; marker-end: url(#arrowB); }
+      .tag { fill: #fff4dd; stroke: #d5b06b; stroke-width: 2; rx: 12; ry: 12; }
+    </style>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b75bd"/>
+    </marker>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#a05b23"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="860" fill="#f7fafc"/>
+  <text class="title" x="56" y="66">OpenCASCADE / Wasm 预留通信机制图</text>
+  <text class="subtitle" x="56" y="102">当前 MVP 以 Three.js 几何体为主，未来可无缝切换到浏览器端 Wasm 几何内核</text>
+
+  <rect class="panel" x="50" y="138" width="1300" height="658"/>
+
+  <g transform="translate(96,214)">
+    <rect class="card" x="0" y="0" width="286" height="190"/>
+    <text class="head" x="22" y="38">CAD UI / Store</text>
+    <text class="text" x="22" y="82">1. 记录特征树与参数</text>
+    <text class="text" x="22" y="116">2. 发起 Extrude / Cut 请求</text>
+    <text class="text" x="22" y="150">3. 接收网格结果并刷新场景</text>
+  </g>
+
+  <g transform="translate(456,214)">
+    <rect class="card" x="0" y="0" width="286" height="190"/>
+    <text class="head" x="22" y="38">Geometry Adapter</text>
+    <text class="text" x="22" y="82">参数对象 -&gt; 中间几何命令</text>
+    <text class="mono" x="22" y="120">buildBody(command)</text>
+    <text class="mono" x="22" y="150">booleanCut(target, tool)</text>
+  </g>
+
+  <g transform="translate(816,214)">
+    <rect class="card" x="0" y="0" width="250" height="190"/>
+    <text class="head" x="22" y="38">OCCT Wasm</text>
+    <text class="text" x="22" y="82">B-Rep / Boolean / Meshing</text>
+    <text class="text" x="22" y="116">运行在浏览器 Worker 中</text>
+    <text class="text" x="22" y="150">避免阻塞主线程 UI</text>
+  </g>
+
+  <g transform="translate(1140,214)">
+    <rect class="card" x="0" y="0" width="160" height="190"/>
+    <text class="head" x="22" y="38">Three.js</text>
+    <text class="text" x="22" y="82">Mesh</text>
+    <text class="text" x="22" y="116">Edges</text>
+    <text class="text" x="22" y="150">Selection</text>
+  </g>
+
+  <g transform="translate(276,520)">
+    <rect class="card" x="0" y="0" width="812" height="176"/>
+    <text class="head" x="26" y="40">后端保持“轻协同”不变</text>
+    <text class="text" x="26" y="84">后端仍然只负责 operation 广播、房间状态维护、Save / Load 和版本快照，</text>
+    <text class="text" x="26" y="118">不直接参与几何求解，因此从 Three.js MVP 升级到 OCCT Wasm 时无需推翻协同链路。</text>
+    <text class="mono" x="26" y="154">Frontend Commands / Mesh Cache  --ws/http--&gt;  Node.js + Express + ws</text>
+  </g>
+
+  <path class="arrowA" d="M 382 308 L 456 308"/>
+  <path class="arrowA" d="M 742 308 L 816 308"/>
+  <path class="arrowA" d="M 1066 308 L 1140 308"/>
+  <path class="arrowB" d="M 1140 360 C 1080 430, 980 450, 742 450"/>
+  <path class="arrowB" d="M 742 450 C 600 450, 470 420, 382 360"/>
+
+  <rect class="tag" x="470" y="90" width="470" height="34"/>
+  <text class="text" x="490" y="113">报告表达重点：当前未实现完整 OCCT，只是明确保留接口与数据流边界</text>
+</svg>

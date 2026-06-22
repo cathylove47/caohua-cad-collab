@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
+  <defs>
+    <style>
+      .title { font: 700 34px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #18212f; }
+      .subtitle { font: 600 18px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #58708c; }
+      .lane { font: 700 22px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #1e3148; }
+      .step { font: 500 17px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #223247; }
+      .small { font: 500 15px "PingFang SC", "Microsoft YaHei", sans-serif; fill: #58708c; }
+      .bg { fill: #f7fafc; }
+      .head { fill: #dceaf6; stroke: #6f8aa6; stroke-width: 2; rx: 16; ry: 16; }
+      .line { stroke: #bfd0df; stroke-width: 3; }
+      .msgA { stroke: #2671b8; stroke-width: 3; fill: none; marker-end: url(#arrowA); }
+      .msgB { stroke: #24916b; stroke-width: 3; fill: none; marker-end: url(#arrowB); }
+      .msgC { stroke: #b86a2a; stroke-width: 3; fill: none; marker-end: url(#arrowC); }
+      .note { fill: #fff6dd; stroke: #d3b56d; stroke-width: 2; rx: 14; ry: 14; }
+    </style>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2671b8"/>
+    </marker>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#24916b"/>
+    </marker>
+    <marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b86a2a"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1400" height="980"/>
+  <text class="title" x="56" y="64">实时协同与持久化数据流图</text>
+  <text class="subtitle" x="56" y="100">覆盖 join、operation、save、restore 四条主要链路</text>
+
+  <g transform="translate(90,140)">
+    <rect class="head" x="0" y="0" width="190" height="54"/>
+    <text class="lane" x="54" y="35">用户 A</text>
+  </g>
+  <g transform="translate(340,140)">
+    <rect class="head" x="0" y="0" width="220" height="54"/>
+    <text class="lane" x="56" y="35">Frontend Store</text>
+  </g>
+  <g transform="translate(640,140)">
+    <rect class="head" x="0" y="0" width="220" height="54"/>
+    <text class="lane" x="37" y="35">WebSocket Server</text>
+  </g>
+  <g transform="translate(940,140)">
+    <rect class="head" x="0" y="0" width="220" height="54"/>
+    <text class="lane" x="42" y="35">Room Manager</text>
+  </g>
+  <g transform="translate(1220,140)">
+    <rect class="head" x="0" y="0" width="120" height="54"/>
+    <text class="lane" x="22" y="35">Storage</text>
+  </g>
+
+  <line class="line" x1="185" y1="208" x2="185" y2="910"/>
+  <line class="line" x1="450" y1="208" x2="450" y2="910"/>
+  <line class="line" x1="750" y1="208" x2="750" y2="910"/>
+  <line class="line" x1="1050" y1="208" x2="1050" y2="910"/>
+  <line class="line" x1="1280" y1="208" x2="1280" y2="910"/>
+
+  <path class="msgA" d="M 185 260 L 450 260"/>
+  <text class="step" x="244" y="248">1. 输入用户名 / 房间号</text>
+
+  <path class="msgA" d="M 450 312 L 750 312"/>
+  <text class="step" x="508" y="300">2. join(roomId, username)</text>
+
+  <path class="msgA" d="M 750 364 L 1050 364"/>
+  <text class="step" x="802" y="352">3. upsertUser + init room</text>
+
+  <path class="msgB" d="M 1050 416 L 450 416"/>
+  <text class="step" x="620" y="404">4. room-state / presence 广播</text>
+
+  <path class="msgA" d="M 185 500 L 450 500"/>
+  <text class="step" x="252" y="488">5. 新建 Box / 修改参数</text>
+
+  <path class="msgA" d="M 450 550 L 750 550"/>
+  <text class="step" x="510" y="538">6. operation(add/update/delete)</text>
+
+  <path class="msgA" d="M 750 600 L 1050 600"/>
+  <text class="step" x="820" y="588">7. applyOperation()</text>
+
+  <path class="msgB" d="M 1050 650 L 450 650"/>
+  <text class="step" x="622" y="638">8. broadcast to other clients</text>
+
+  <path class="msgC" d="M 450 740 L 1280 740"/>
+  <text class="step" x="716" y="728">9. Save -&gt; JSON + version snapshot</text>
+
+  <path class="msgC" d="M 1280 790 L 450 790"/>
+  <text class="step" x="734" y="778">10. saved state / versions list</text>
+
+  <rect class="note" x="76" y="840" width="1240" height="92"/>
+  <text class="step" x="100" y="876">说明：</text>
+  <text class="small" x="160" y="876">蓝色链路表示实时协同；绿色链路表示房间状态回推；橙色链路表示持久化与版本管理。</text>
+  <text class="small" x="100" y="908">客户端本地先更新，再通过 WebSocket 广播操作；后端采用“最后写入优先”策略保证课程演示阶段的稳定性。</text>
+</svg>

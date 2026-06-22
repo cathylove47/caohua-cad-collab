@@ -13,6 +13,8 @@
 
 ## 2. 总体架构图
 
+![系统总体架构图](./images/architecture-overview.svg)
+
 ```mermaid
 flowchart LR
     UserA["用户 A 浏览器"]
@@ -51,6 +53,8 @@ flowchart LR
 ```
 
 ## 3. 模块关系 UML 图
+
+![模块关系 UML 图](./images/module-uml.svg)
 
 ```mermaid
 classDiagram
@@ -113,6 +117,8 @@ classDiagram
 
 ## 4. 数据流向图
 
+![实时协同与持久化数据流图](./images/collab-dataflow.svg)
+
 ```mermaid
 sequenceDiagram
     participant U as User
@@ -157,7 +163,21 @@ sequenceDiagram
 - 演示链路清晰，答辩时便于说明；
 - 后续可替换为 OpenCASCADE/Wasm 几何内核而不推翻协同架构。
 
-## 6. 前端模块划分
+## 6. OpenCASCADE / Wasm 预留通信机制
+
+![OpenCASCADE / Wasm 预留通信机制图](./images/wasm-bridge.svg)
+
+当前 MVP 没有强行集成 OpenCASCADE/Wasm，而是把几何求解边界提前抽象清楚：
+
+- 前端 `CadStore` 继续维护特征参数、对象树和操作历史；
+- 几何适配层负责把 `extrude`、`cut` 等高层命令翻译为统一几何命令；
+- 未来若引入 OCCT Wasm，可将其运行在浏览器 Worker 中，负责 B-Rep 建模、布尔运算和网格离散；
+- Three.js 仍只负责显示网格结果、边线和选中态；
+- 后端继续只做协同广播与持久化，不参与几何求解。
+
+这种预留方式的价值在于：课程设计阶段可以用 Three.js 基础几何体稳定完成演示，而后续升级到工业级几何内核时，不需要重写协同和存储架构。
+
+## 7. 前端模块划分
 
 - `components/Toolbar.tsx`
   - Ribbon 风格工具栏，负责触发建模、保存加载和智能命令。
@@ -174,7 +194,7 @@ sequenceDiagram
 - `lib/command-parser.ts`
   - 轻量自然语言命令解析器，用于演示“智能辅助建模”入口。
 
-## 7. 后端模块划分
+## 8. 后端模块划分
 
 - `src/server.ts`
   - Express API + WebSocket Server 入口。
@@ -185,9 +205,9 @@ sequenceDiagram
 - `src/types.ts`
   - 共享消息和房间数据结构定义。
 
-## 8. WebSocket 协同流程
+## 9. WebSocket 协同流程
 
-### 8.1 加入房间
+### 9.1 加入房间
 
 1. 用户在前端输入 `username` 和 `roomId`
 2. 前端发起 WebSocket 连接
@@ -195,7 +215,7 @@ sequenceDiagram
 4. 后端将用户加入房间并返回 `room-state`
 5. 后端广播 `presence`
 
-### 8.2 操作同步
+### 9.2 操作同步
 
 1. 用户执行 add / update / delete / replace-state
 2. 前端本地先更新 Zustand 状态
@@ -204,14 +224,14 @@ sequenceDiagram
 5. 后端广播给同房间其他客户端
 6. 其他客户端收到后重放操作并更新视图
 
-### 8.3 光标同步
+### 9.3 光标同步
 
 1. 用户移动鼠标
 2. 前端按节流频率发送 `cursor` 消息
 3. 后端更新房间 cursor 状态并广播
 4. 其他客户端在视图区覆盖显示彩色光标标签
 
-## 9. 冲突处理策略
+## 10. 冲突处理策略
 
 MVP 中的冲突处理采用：
 
@@ -224,9 +244,9 @@ MVP 中的冲突处理采用：
 
 这样做可以减少复杂并发控制的实现成本，优先保证演示稳定。
 
-## 10. 数据结构
+## 11. 数据结构
 
-### 10.1 CADObject
+### 11.1 CADObject
 
 每个对象均包含：
 
@@ -244,7 +264,7 @@ MVP 中的冲突处理采用：
 - 可选 `targetId`
 - 可选 `note`
 
-### 10.2 支持的对象类型
+### 11.2 支持的对象类型
 
 - `box`
 - `cylinder`
@@ -255,7 +275,7 @@ MVP 中的冲突处理采用：
 - `extrude`
 - `cut`
 
-### 10.3 RoomState
+### 11.3 RoomState
 
 - `roomId`
 - `objects`
