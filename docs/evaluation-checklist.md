@@ -1,6 +1,7 @@
 # 考核标准对照表
 
 ![考核标准对照图](./images/evaluation-scorecard.svg)
+![课程设计完成度总览图](./images/completion-map.svg)
 
 ## 1. 架构设计文档（20%）
 
@@ -8,6 +9,7 @@
 
 - [architecture.md](/Users/cathy/code/caohua/cad-collab/docs/architecture.md)
 - [api.md](/Users/cathy/code/caohua/cad-collab/docs/api.md)
+- [completion-matrix.md](/Users/cathy/code/caohua/cad-collab/docs/completion-matrix.md)
 
 已经覆盖：
 

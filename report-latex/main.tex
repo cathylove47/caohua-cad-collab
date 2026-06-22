@@ -27,11 +27,11 @@
 \pagenumbering{Roman}
 
 \begin{cnabstract}{云 CAD；协同设计；Three.js；WebSocket；版本管理；智能辅助建模}
-本文围绕《基于云的协同机械 CAD 系统设计与实现》这一课程设计题目，完成了一个面向本地稳定演示和课程答辩的最小可交付系统。系统采用 React + TypeScript + Vite 构建前端 CAD 界面，使用 Three.js 完成三维图形渲染，采用 Zustand 进行状态管理；后端基于 Node.js + Express + WebSocket 实现房间状态维护与实时协同广播；数据层通过本地 JSON 文件完成项目保存和版本快照管理。
+本文围绕《基于云的协同机械 CAD 系统设计与实现》课程设计题目，面向“本地稳定运行、功能链路完整、结构清晰可讲解”的交付目标，设计并实现了一个可用于课程展示与报告提交的协同机械 CAD 最小可交付系统。系统采用 React + TypeScript + Vite 构建前端界面，使用 Three.js 完成三维图形渲染，采用 Zustand 维护建模状态；后端基于 Node.js + Express + WebSocket 实现房间状态维护与实时协同广播；数据层通过本地 JSON 文件完成项目保存与版本快照管理。
 
-系统支持 Box、Cylinder、Sphere 等基础实体建模，支持 Line、Circle、Rectangle 等草图对象表达，并实现了基于 Rectangle 和 Circle 草图的 Extrude 操作。系统同时支持双窗口同房间实时协同、在线用户显示、远端光标同步、Save / Load、版本恢复和 Undo / Redo 等关键功能。为增强项目创新性，系统增加了 Smart Assist 自然语言辅助建模入口，并在架构层预留了 OpenCASCADE/Wasm、PostgreSQL、OBS 和 AI 辅助设计的后续扩展方向。
+系统支持 Box、Cylinder、Sphere 等基础实体建模，支持 Line、Circle、Rectangle 等草图对象表达，并实现了基于 Rectangle 与 Circle 草图的 Extrude 操作。与此同时，系统提供双窗口同房间实时协同、在线用户显示、远端光标同步、Save / Load、版本恢复以及 Undo / Redo 等关键能力。为增强项目的创新性表达，系统增加了 Smart Assist 自然语言辅助建模入口，并在架构层预留了 OpenCASCADE/Wasm、PostgreSQL、OBS 及 AI 辅助设计等后续扩展方向。
 
-测试结果表明，该系统能够在 macOS 本地稳定运行，能够较完整地覆盖课程设计考核项中关于架构设计文档、核心功能实现、代码质量、创新性和演示答辩的要求。本文的实现强调工程取舍与可演示性，在较低复杂度下实现了协同 CAD 的核心闭环，为后续升级为更完整的 Web CAD 平台奠定了基础。
+实验与联调结果表明，该系统能够在 macOS 本地环境下稳定运行，并较完整地覆盖课程设计考核项中关于架构设计文档、核心功能实现、代码质量、创新性和演示答辩的要求。本文实现强调工程取舍与演示稳定性之间的平衡，在较低实现复杂度下完成了协同 CAD 的核心闭环，为后续演进为更完整的 Web CAD 平台奠定了实现基础。
 \end{cnabstract}
 
 \begin{enabstract}{Cloud CAD; collaborative design; Three.js; WebSocket; version management; smart-assisted modeling}
@@ -63,7 +63,7 @@ The implementation and verification results show that the system is suitable for
 
 \subsection{研究目标}
 
-本课程设计不以替代工业级 CAD 软件为目标，而是以“能够稳定演示、便于提交课程设计、结构清晰、便于答辩讲解”为优先原则，实现一个云协同机械 CAD 最小可交付系统（MVP）。本项目具体目标包括：
+本课程设计并不以替代工业级 CAD 软件为目标，而是以“稳定演示、顺利提交、便于讲解、可持续扩展”为优先原则，完成一个云协同机械 CAD 最小可交付系统（MVP）。本项目的具体目标包括：
 
 \begin{enumerate}[leftmargin=2em]
   \item 设计并实现一个本地可运行的 CAD 主界面；
@@ -410,11 +410,11 @@ T14 & Smart Assist & 自动创建对应对象 & 创新性 \\
 
 \section{总结与展望}
 
-本文完成了一个基于云协同思想的机械 CAD 系统 MVP 的设计与实现。系统在课程设计范围内实现了基础建模、草图表达、拉伸成型、实时协同、保存加载、版本管理和轻量智能辅助建模等关键功能，并围绕考核标准准备了图示、文档、测试矩阵和答辩材料。
+本文完成了一个基于云协同思想的机械 CAD 系统 MVP 的设计与实现。系统在课程设计范围内实现了基础建模、草图表达、拉伸成型、实时协同、保存加载、版本管理以及轻量智能辅助建模等关键功能，并围绕考核标准进一步形成了架构图示、测试矩阵、验收截图和课程报告等配套材料。
 
-本项目的意义在于，在不追求工业级内核完整实现的前提下，通过合理的工程取舍，完成了一个结构清晰、演示稳定、便于扩展和便于答辩说明的云协同 CAD 课程设计作品。
+本项目的主要价值在于：在不追求工业级几何内核完整实现的前提下，通过合理的技术选型与工程取舍，完成了一个结构清晰、演示稳定、功能闭环完整且便于后续扩展的云协同 CAD 课程设计作品。该实现既满足了课程考核中“能运行、能展示、能说明”的基本要求，也为后续向更高保真度的 Web CAD 系统演进保留了明确接口边界。
 
-后续可进一步从以下方面扩展：
+后续工作可进一步从以下方面展开：
 
 \begin{itemize}[leftmargin=2em]
   \item 接入 OpenCASCADE/Wasm，提升几何建模能力；
