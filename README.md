@@ -112,6 +112,7 @@ npm run dev
 - [系统架构](./docs/architecture.md)
 - [API 说明](./docs/api.md)
 - [考核项完成度总表](./docs/completion-matrix.md)
+- [最终提交前审查](./docs/final-audit.md)
 - [报告正文初稿](./docs/course-report-draft.md)
 - [答辩演示稿](./docs/defense-script.md)
 - [考核标准对照表](./docs/evaluation-checklist.md)
