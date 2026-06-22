@@ -1,0 +1,39 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" fill="#F7F2E9"/>
+  <rect x="40" y="36" width="1120" height="648" rx="28" fill="#FFFDF9" stroke="#E7DED1"/>
+  <text x="72" y="96" font-size="44" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#292524">课程设计考核标准对照图</text>
+  <text x="72" y="136" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">基于云的协同机械 CAD 系统设计与实现 MVP</text>
+
+  <rect x="72" y="176" width="1056" height="88" rx="18" fill="#F4EFE7"/>
+  <text x="96" y="228" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#1F2937">架构设计文档</text>
+  <text x="340" y="228" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#0F766E">20%</text>
+  <rect x="430" y="198" width="640" height="34" rx="17" fill="#E7E0D3"/>
+  <rect x="430" y="198" width="610" height="34" rx="17" fill="#0EA5E9"/>
+  <text x="96" y="252" font-size="20" font-family="Arial, Helvetica, sans-serif" fill="#57534E">总体架构图 / UML / 数据流 / Wasm 预留说明</text>
+
+  <rect x="72" y="280" width="1056" height="88" rx="18" fill="#F4EFE7"/>
+  <text x="96" y="332" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#1F2937">核心功能实现</text>
+  <text x="340" y="332" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#0F766E">40%</text>
+  <rect x="430" y="302" width="640" height="34" rx="17" fill="#E7E0D3"/>
+  <rect x="430" y="302" width="620" height="34" rx="17" fill="#22C55E"/>
+  <text x="96" y="356" font-size="20" font-family="Arial, Helvetica, sans-serif" fill="#57534E">草图 / 3D 建模 / 实时协同 / 保存加载 / 版本恢复</text>
+
+  <rect x="72" y="384" width="1056" height="88" rx="18" fill="#F4EFE7"/>
+  <text x="96" y="436" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#1F2937">代码质量</text>
+  <text x="340" y="436" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#0F766E">15%</text>
+  <rect x="430" y="406" width="640" height="34" rx="17" fill="#E7E0D3"/>
+  <rect x="430" y="406" width="540" height="34" rx="17" fill="#8B5CF6"/>
+  <text x="96" y="460" font-size="20" font-family="Arial, Helvetica, sans-serif" fill="#57534E">Monorepo 结构 / 注释 / GitHub 仓库 / 可构建可运行</text>
+
+  <rect x="72" y="488" width="1056" height="88" rx="18" fill="#F4EFE7"/>
+  <text x="96" y="540" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#1F2937">创新性</text>
+  <text x="340" y="540" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#0F766E">15%</text>
+  <rect x="430" y="510" width="640" height="34" rx="17" fill="#E7E0D3"/>
+  <rect x="430" y="510" width="500" height="34" rx="17" fill="#F97316"/>
+  <text x="96" y="564" font-size="20" font-family="Arial, Helvetica, sans-serif" fill="#57534E">Smart Assist 自然语言建模 / AI-inspired / 几何内核扩展位</text>
+
+  <rect x="72" y="592" width="1056" height="64" rx="18" fill="#F4EFE7"/>
+  <text x="96" y="632" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#1F2937">演示与答辩</text>
+  <text x="340" y="632" font-size="28" font-family="Arial, Helvetica, sans-serif" fill="#0F766E">10%</text>
+  <text x="430" y="632" font-size="22" font-family="Arial, Helvetica, sans-serif" fill="#57534E">已补 3~5 分钟演示稿、高频问答、演示顺序速记卡</text>
+</svg>

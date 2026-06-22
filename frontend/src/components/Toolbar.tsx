@@ -9,6 +9,9 @@ export function Toolbar() {
   const loadProject = useCadStore((state) => state.loadProject);
   const undo = useCadStore((state) => state.undo);
   const redo = useCadStore((state) => state.redo);
+  const smartCommand = useCadStore((state) => state.smartCommand);
+  const setSmartCommand = useCadStore((state) => state.setSmartCommand);
+  const runSmartCommand = useCadStore((state) => state.runSmartCommand);
 
   return (
     <header className="toolbar">
@@ -33,6 +36,16 @@ export function Toolbar() {
         <button type="button" onClick={undo}>Undo</button>
         <button type="button" onClick={redo}>Redo</button>
         <button type="button" onClick={deleteSelected}>Delete</button>
+      </div>
+      <div className="toolbar-group toolbar-command-group">
+        <span className="toolbar-title">Smart Assist</span>
+        <input
+          className="toolbar-command-input"
+          value={smartCommand}
+          onChange={(event) => setSmartCommand(event.target.value)}
+          placeholder="创建 box width 4 height 2 depth 3"
+        />
+        <button type="button" onClick={runSmartCommand}>Run</button>
       </div>
     </header>
   );

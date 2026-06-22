@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import { USER_COLORS, WS_URL } from '../config';
+import { parseSmartCommand } from '../lib/command-parser';
 import { cloneObjects, createCutMarker, createExtrudeFromSketch, createPrimitive } from '../lib/modeling';
 import { fetchPersistedRoomState, fetchRoomState, fetchRoomVersions, restoreRoomVersion, saveCurrentRoomState } from '../services/api';
 import type {
@@ -34,7 +35,9 @@ interface CadStore {
   notice: string;
   historyPast: CADObject[][];
   historyFuture: CADObject[][];
+  smartCommand: string;
   setLoginForm: (patch: Partial<LoginForm>) => void;
+  setSmartCommand: (value: string) => void;
   connectSession: () => Promise<void>;
   disconnectSession: () => void;
   addObject: (type: CADObjectType) => void;
@@ -50,6 +53,7 @@ interface CadStore {
   undo: () => void;
   redo: () => void;
   sendCursor: (x: number, y: number) => void;
+  runSmartCommand: () => void;
 }
 
 let socket: WebSocket | null = null;
@@ -138,9 +142,14 @@ export const useCadStore = create<CadStore>((set, get) => ({
   notice: 'Conflict policy: last write wins in the latest received operation.',
   historyPast: [],
   historyFuture: [],
+  smartCommand: '创建 box width 4 height 2 depth 3',
 
   setLoginForm: (patch) => {
     set((state) => ({ loginForm: { ...state.loginForm, ...patch } }));
+  },
+
+  setSmartCommand: (value) => {
+    set({ smartCommand: value });
   },
 
   connectSession: async () => {
@@ -390,6 +399,7 @@ export const useCadStore = create<CadStore>((set, get) => ({
     }
     const state = await fetchRoomState(session.roomId);
     const persisted = await fetchPersistedRoomState(session.roomId);
+    // "Load" intentionally restores the last saved snapshot rather than transient room memory.
     set({
       objects: persisted.objects,
       users: state.users,
@@ -474,5 +484,29 @@ export const useCadStore = create<CadStore>((set, get) => ({
         y,
       },
     });
+  },
+
+  runSmartCommand: () => {
+    const session = get().session;
+    if (!session) {
+      return;
+    }
+
+    const result = parseSmartCommand(get().smartCommand, session, get().objects);
+    if (result.kind === 'error') {
+      set({ notice: result.message });
+      return;
+    }
+
+    const previous = cloneObjects(get().objects);
+    const nextObjects = replaceObject(previous, result.object);
+    set({
+      objects: nextObjects,
+      selectedId: result.object.id,
+      historyPast: [...get().historyPast, previous],
+      historyFuture: [],
+      notice: `${result.message} This is a lightweight AI-inspired command parser for demo innovation.`,
+    });
+    sendMessage({ type: 'operation', payload: makeOperation(session, 'add', { object: result.object }) });
   },
 }));

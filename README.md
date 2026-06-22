@@ -2,6 +2,8 @@
 
 《基于云的协同机械 CAD 系统设计与实现》课程设计 MVP。项目目标不是工业级 CAD，而是一个能在 macOS 本地稳定运行、支持双窗口协同演示、结构清楚、便于写报告和答辩的最小可交付版本。
 
+![CAD Workspace Demo](./docs/images/cad-workspace-demo.png)
+
 ## 功能概览
 
 - React + TypeScript + Vite 前端 CAD 界面
@@ -14,6 +16,7 @@
 - 在线用户列表、连接状态、房间 ID 展示
 - Save / Load、JSON 落盘、版本快照、版本恢复
 - 客户端 Undo / Redo
+- Smart Assist：支持用自然语言近似命令快速创建基础对象
 - 预留后续扩展方向：OpenCASCADE/Wasm、PostgreSQL、OBS、华为云部署
 
 ## 项目结构
@@ -25,6 +28,8 @@ cad-collab/
   docs/
     architecture.md
     api.md
+    defense-script.md
+    evaluation-checklist.md
     local-run.md
     report-outline.md
   README.md
@@ -68,10 +73,11 @@ npm run dev
 4. 选中对象后在右侧属性面板修改尺寸或位置，另一窗口会同步更新。
 5. 新建 `Rectangle` 或 `Circle` 草图后点击 `Extrude`，生成 3D 实体。
 6. 选中一个实体点击 `Cut`，看到简化的切除标记效果。
-7. 点击 `Save`，后端会保存当前房间 JSON，并生成版本快照。
-8. 刷新页面重新进入房间，点击 `Load` 可恢复后端保存状态。
-9. 右侧 `Versions` 区域可查看最近版本并执行 `Restore`。
-10. 使用 `Undo / Redo` 演示客户端操作回退与重做。
+7. 在 `Smart Assist` 输入框中尝试 `创建 box width 4 height 2 depth 3`，展示智能辅助建模入口。
+8. 点击 `Save`，后端会保存当前房间 JSON，并生成版本快照。
+9. 刷新页面重新进入房间，点击 `Load` 可恢复后端保存状态。
+10. 右侧 `Versions` 区域可查看最近版本并执行 `Restore`。
+11. 使用 `Undo / Redo` 演示客户端操作回退与重做。
 
 ## 已实现能力
 
@@ -80,6 +86,7 @@ npm run dev
 - 基础建模和草图数据结构完成
 - 协同广播与在线状态完成
 - 保存、加载、版本快照、版本恢复完成
+- 智能辅助建模入口完成
 - 本地 JSON 存储完成
 - 课程设计说明文档完成
 
@@ -101,5 +108,7 @@ npm run dev
 
 - [系统架构](./docs/architecture.md)
 - [API 说明](./docs/api.md)
+- [答辩演示稿](./docs/defense-script.md)
+- [考核标准对照表](./docs/evaluation-checklist.md)
 - [本地运行说明](./docs/local-run.md)
 - [课程设计报告提纲](./docs/report-outline.md)

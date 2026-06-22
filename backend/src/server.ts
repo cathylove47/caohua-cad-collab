@@ -121,6 +121,7 @@ wss.on('connection', (socket) => {
       const room = await getOrCreateRoom(currentRoomId);
 
       if (message.type === 'operation') {
+        // MVP conflict resolution is intentionally simple: the newest received operation wins.
         applyOperation(room, message.payload);
         broadcast(currentRoomId, { type: 'operation', payload: message.payload }, socket);
         return;

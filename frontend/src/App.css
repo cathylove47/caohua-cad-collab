@@ -31,6 +31,11 @@
   border-right: 0;
 }
 
+.toolbar-command-group {
+  min-width: min(100%, 420px);
+  flex: 1;
+}
+
 .toolbar-title {
   font-size: 0.75rem;
   font-weight: 700;
@@ -43,11 +48,27 @@
 .primary-button,
 .ghost-button,
 .panel-header button,
-.version-item button {
+.version-item button,
+.toolbar-command-input {
   border: 0;
   border-radius: 0.9rem;
   padding: 0.65rem 0.95rem;
   font-weight: 600;
+}
+
+.toolbar-command-input {
+  flex: 1;
+  min-width: 220px;
+  background: #fffdf9;
+  color: #292524;
+  border: 1px solid rgba(120, 113, 108, 0.16);
+}
+
+.toolbar button,
+.primary-button,
+.ghost-button,
+.panel-header button,
+.version-item button {
   background: #e7e0d3;
   color: #292524;
   cursor: pointer;
